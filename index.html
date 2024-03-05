@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constraint Validation API Practice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>CONSTRAINT VALIDATION API TEST</h1>
+        <p>This form is intended to test the use of JavaScript to create custom error messages in forms.</p>
+    </header>
+    <form id="main">
+        <div class="item">
+            <label for="mail">Email:</label>
+            <input type="email" name="email" id="email">
+        </div>
+        <div class="item">
+            <label for="country">Country:</label>
+            <input type="text" name="country" id="country">
+        </div>
+        <div class="item">
+            <label for="zip">Zip Code:</label>
+            <input type="text" name="zip" id="zip">
+        </div>
+        <div class="item">
+            <label for="pass">Password:</label>
+                <input type="password" name="pass" id="pass">
+        </div>
+        <div class="item">
+            <label for="passConfirm">Confirm Password:</label>
+            <input type="password" name="passConfirm" id="passConfirm">
+        </div>
+        <button id="submit" type="button">Sumbit</button>
+
+        <script src="script.js"></script>
+    </form>
+</body>
+</html>
