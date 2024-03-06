@@ -61,7 +61,8 @@ const formValidator = { //validation logic
         const zipCodeFormat = /^[a-zA-Z0-9 -]+$/ // generic format for any country's zip code
         const countryNameFormat = /^[a-zA-Z -]*$/ // simplifed format for country name
 
-
+        console.log(fieldName)
+        console.log(value)
         if (rules.required && value.trim() === '') { // required value is empty
             errorMessage = 'This value is required.'
         } else if (rules.minLength > value.length) { // below minimum length
@@ -146,6 +147,20 @@ submitBtn.addEventListener('click', () => {
         highFiveText.textContent = ''
         console.log('displaying all error messages.')
         
+        formFields.forEach(field => {
+            const fieldName = field.getAttribute('name')
+
+            //getting the error message
+            const validityResult = formValidator.validateField(fieldName, formData[fieldName])
+            const errorMessage = validityResult.errorMessage
+
+            //displaying the error message
+            const errorTextArea = document.querySelector(`#${fieldName} ~ span.error`)
+            errorTextArea.textContent = validityResult.errorMessage
+
+
+
+        })
     }
 
 })
