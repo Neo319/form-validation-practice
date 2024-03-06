@@ -12,7 +12,7 @@ const validationRules = { //object tracking which rules apply to which items
     email: {
         required: true,
         minLength: 3,
-        maxLength: 20,
+        maxLength: 30,
         type: 'email',
     }
 }
@@ -25,14 +25,13 @@ const formValidator = { //validation logic, returns boolean + error message
 
         const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ // how email types are checked
 
-
         if (rules.required && value.trim() === '') { // required value is empty
             errorMessage = 'This value is required.'
         } else if (rules.minLength > value.length) { // below minimum length
             errorMessage = 'This value must be no shorter than ' + rules.minLength + ' characters.'
         } else if (rules.maxLength < value.length) { //above max length
             errorMessage = 'This value must be no longer than ' + rules.maxLength + ' characters.'
-        }  else if (rules.type === 'email' && validationRules.value !== emailFormat) { // value does not match email type
+        }  else if (rules.type === 'email' && !emailFormat.test(value)) { // value does not match email type
             errorMessage = 'This value must be a valid email.'
         }
          
@@ -57,7 +56,7 @@ const formValidator = { //validation logic, returns boolean + error message
 //add event listeners to all fields
 const formFields = document.querySelectorAll('input[name]')
 formFields.forEach(field => {
-    field.addEventListener('input', function () {
+    field.addEventListener('focusout', function () {
         const fieldName = this.getAttribute('name')
         const value = this.value
         const DOMField = document.getElementById(fieldName)
@@ -75,6 +74,8 @@ formFields.forEach(field => {
             DOMField.classList.add ('invalid')
         } else {
             DOMField.classList.remove('invalid')
+            errorTextArea.textContent = ''
+
         }
 
 
