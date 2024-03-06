@@ -28,6 +28,7 @@ const validationRules = { //object tracking which rules apply to which items
         required: true,
         minLength: 3,
         maxLength: 15,
+        type: 'zip',
     },
     pass: {
         required: true,
@@ -49,7 +50,8 @@ const formValidator = { //validation logic, returns boolean + error message
         let isValid = false // boolean tracking validation result
 
         const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ // how email types are checked
-        const zipCodeFormat = /^[a-zA-Z0-9 -]+$/; // generic format for any country
+        const zipCodeFormat = /^[a-zA-Z0-9 -]+$/ // generic format for any country's zip code
+        const countryNameFormat = /^[a-zA-Z -]+$/ // simplifed format for country name
 
 
         if (rules.required && value.trim() === '') { // required value is empty
@@ -62,11 +64,12 @@ const formValidator = { //validation logic, returns boolean + error message
             errorMessage = 'This value must be a valid email.'
         } else if (rules.type === 'zip' && !zipCodeFormat.test(value.trim())) {  // value does not match zip type
             errorMessage = 'Valid zip/postal codes can include only letters and numbers.'
+        } else if (rules.type = 'country' && !countryNameFormat.test(value.trim())) { //value does not match country type
+            errorMessage = 'Valid country names should contain only letters.'
         } else if (fieldName === 'passConfirm' && value !== formData.pass.value) { //passwords do not match
             errorMessage = 'Passwords do not match!'
         }
          
-        
         else { 
             isValid = true // all validation checks passed 
         }
@@ -94,9 +97,9 @@ formFields.forEach(field => {
 
 
         const validityResult = formValidator.validateField(fieldName, value) // how validation is called
+        const errorTextArea = document.querySelector(`#${fieldName} ~ span.error`)
 
         //handling validation result
-        const errorTextArea = document.querySelector(`#${fieldName} + span.error`)
         if (!validityResult.isValid) {
             errorTextArea.textContent = validityResult.errorMessage
             console.log(validityResult)

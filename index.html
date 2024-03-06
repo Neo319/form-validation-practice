@@ -15,29 +15,41 @@
         <div class="item">
             <label for="mail">Email:</label>
             <input type="email" name="email" id="email">
+            <span class="required">*</span>
+            <div class="empty"></div> 
             <span class="error" aria-live="polite"></span>
         </div>
         <div class="item">
             <label for="country">Country:</label>
             <input type="text" name="country" id="country">
+            <span class="required"></span>
+            <div class="empty"></div> 
             <span class="error" aria-live="polite"></span>
         </div>
         <div class="item">
             <label for="zip">Zip/Postal Code:</label>
             <input type="text" name="zip" id="zip">
+            <span class="required">*</span>
+            <div class="empty"></div> 
             <span class="error" aria-live="polite"></span>
         </div>
         <div class="item">
             <label for="pass">Password:</label>
             <input type="password" name="pass" id="pass">
+            <span class="required">*</span>
+            <div class="empty"></div> 
             <span class="error" aria-live="polite"></span>
         </div>
         <div class="item">
             <label for="passConfirm">Confirm Password:</label>
             <input type="password" name="passConfirm" id="passConfirm">
+            <span class="required">*</span>
+            <div class="empty"></div> 
             <span class="error" aria-live="polite"></span>
         </div>
         <button id="submit" type="button">Sumbit</button>
+
+        <span id="requiredNotifier">Fields marked with * are required.</span>
 
         <script src="script.js"></script>
     </form>
