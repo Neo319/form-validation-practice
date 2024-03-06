@@ -11,6 +11,13 @@ const formData = { //object that tracks the data collected
     pass: form.elements['pass'].value,
     passConfirm: form.elements['passConfirm'].value,
 }
+// Add event listener to update formData whenever any form field changes
+form.addEventListener('input', function(event) {
+    const target = event.target
+    if (target.tagName === 'INPUT' || target.tagName === 'SELECT') {
+        formData[target.name] = target.value
+    }
+})
 
 const validationRules = { //object tracking which rules apply to which items
     email: {
@@ -42,7 +49,9 @@ const validationRules = { //object tracking which rules apply to which items
 
 }
 
-const formValidator = { //validation logic, returns boolean + error message
+const formValidator = { //validation logic 
+
+    //validation of individual fields, returns boolean + error message
     validateField (fieldName, value) {
         const rules = validationRules[fieldName] // rules acquired from validationRules
         let errorMessage = '' // variable for storing the appropriate error message
@@ -63,26 +72,38 @@ const formValidator = { //validation logic, returns boolean + error message
             errorMessage = 'This value must be a valid email.'
         } else if (rules.type === 'zip' && !zipCodeFormat.test(value.trim())) {  // value does not match zip type
             errorMessage = 'Valid zip/postal codes can include only letters and numbers.'
-        } else if (rules.type = 'country' && !countryNameFormat.test(value.trim())) { //value does not match country type
+        } else if (rules.type === 'country' && !countryNameFormat.test(value.trim())) { //value does not match country type
             errorMessage = 'Valid country names should contain only letters.'
-        } else if (fieldName === 'passConfirm' && value !== formData.pass.value) { //passwords do not match
+        } else if (fieldName === 'passConfirm' && value !== formData.pass) { //passwords do not match
+            console.log(formData.pass)
+            console.log(value)
             errorMessage = 'Passwords do not match!'
         }
          
         else { 
             isValid = true // all validation checks passed 
         }
-
-
         return {
             isValid,
             errorMessage
         }
-
-
     },
+    //validation of entire form, Returns true if all values are valid
     validateForm (formData) {
+        let formIsValid = true
+        const formFields = document.querySelectorAll('input[name]');
+        formFields.forEach(field => { //validate each field
+            const fieldName = field.getAttribute('name')
+            const value = field.value
 
+            let validationResult = this.validateField(fieldName, value) 
+            if (!validationResult.isValid) {
+                console.log('invalid')
+                formIsValid = false
+            };
+        }) 
+        //all fields pass validation check
+        return formIsValid
     },
 }
 
@@ -109,8 +130,12 @@ formFields.forEach(field => {
             DOMField.classList.remove('invalid')
             errorTextArea.textContent = ''
         }
-
-
     })
 })
 
+// add event listener to the select button
+const submitBtn = document.getElementById('submit')
+submitBtn.addEventListener('click', () => {
+    const result = formValidator.validateForm()
+    console.log(result)
+})
