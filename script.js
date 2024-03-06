@@ -110,7 +110,7 @@ const formValidator = { //validation logic
 //add event listeners to all fields
 const formFields = document.querySelectorAll('input[name]')
 formFields.forEach(field => {
-    field.addEventListener('focusout', function () {
+    field.addEventListener('focusout', function errorHandler() {
         const fieldName = this.getAttribute('name')
         const value = this.value
         const DOMField = document.getElementById(fieldName)
@@ -134,8 +134,18 @@ formFields.forEach(field => {
 })
 
 // add event listener to the select button
+const highFiveText = document.getElementById('highFive') // when validation is complete
+
 const submitBtn = document.getElementById('submit')
 submitBtn.addEventListener('click', () => {
-    const result = formValidator.validateForm()
-    console.log(result)
+    const formIsValid = formValidator.validateForm()
+    
+    if (formIsValid) {
+        highFiveText.textContent = 'You did it! Gimme five! へ(^o^)ノ'
+    } else {
+        highFiveText.textContent = ''
+        console.log('displaying all error messages.')
+        
+    }
+
 })
