@@ -37,3 +37,7 @@ input {
     position: relative;
     bottom: 0;
 }
+
+input.invalid {
+    border: 2px solid red;
+}
