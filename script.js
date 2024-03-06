@@ -6,6 +6,10 @@ const form = document.getElementById('main')
 
 const formData = { //object that tracks the data collected
     email: form.elements['email'].value,
+    country: form.elements['country'].value,
+    zip: form.elements['zip'].value,
+    pass: form.elements['pass'].value,
+    passConfirm: form.elements['passConfirm'].value,
 }
 
 const validationRules = { //object tracking which rules apply to which items
@@ -14,7 +18,28 @@ const validationRules = { //object tracking which rules apply to which items
         minLength: 3,
         maxLength: 30,
         type: 'email',
+    },
+    country: { // (simplified)
+        required: false,
+        minLength: 3,
+        maxLength: 20,
+    },
+    zip: {
+        required: true,
+        minLength: 3,
+        maxLength: 15,
+    },
+    pass: {
+        required: true,
+        minLength: 8,
+        maxLength: 30,
+    },
+    passConfirm: {
+        required: true,
+        minLength: 8,
+        maxLength: 30,
     }
+
 }
 
 const formValidator = { //validation logic, returns boolean + error message
@@ -24,6 +49,8 @@ const formValidator = { //validation logic, returns boolean + error message
         let isValid = false // boolean tracking validation result
 
         const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ // how email types are checked
+        const zipCodeFormat = /^[a-zA-Z0-9 -]+$/; // generic format for any country
+
 
         if (rules.required && value.trim() === '') { // required value is empty
             errorMessage = 'This value is required.'
@@ -31,8 +58,12 @@ const formValidator = { //validation logic, returns boolean + error message
             errorMessage = 'This value must be no shorter than ' + rules.minLength + ' characters.'
         } else if (rules.maxLength < value.length) { //above max length
             errorMessage = 'This value must be no longer than ' + rules.maxLength + ' characters.'
-        }  else if (rules.type === 'email' && !emailFormat.test(value)) { // value does not match email type
+        }  else if (rules.type === 'email' && !emailFormat.test(value.trim())) { // value does not match email type
             errorMessage = 'This value must be a valid email.'
+        } else if (rules.type === 'zip' && !zipCodeFormat.test(value.trim())) {  // value does not match zip type
+            errorMessage = 'Valid zip/postal codes can include only letters and numbers.'
+        } else if (fieldName === 'passConfirm' && value !== formData.pass.value) { //passwords do not match
+            errorMessage = 'Passwords do not match!'
         }
          
         
@@ -75,7 +106,6 @@ formFields.forEach(field => {
         } else {
             DOMField.classList.remove('invalid')
             errorTextArea.textContent = ''
-
         }
 
 
