@@ -21,7 +21,6 @@ const validationRules = { //object tracking which rules apply to which items
     },
     country: { // (simplified)
         required: false,
-        minLength: 3,
         maxLength: 20,
     },
     zip: {
@@ -51,7 +50,7 @@ const formValidator = { //validation logic, returns boolean + error message
 
         const emailFormat = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ // how email types are checked
         const zipCodeFormat = /^[a-zA-Z0-9 -]+$/ // generic format for any country's zip code
-        const countryNameFormat = /^[a-zA-Z -]+$/ // simplifed format for country name
+        const countryNameFormat = /^[a-zA-Z -]*$/ // simplifed format for country name
 
 
         if (rules.required && value.trim() === '') { // required value is empty
