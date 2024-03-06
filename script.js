@@ -61,8 +61,6 @@ const formValidator = { //validation logic
         const zipCodeFormat = /^[a-zA-Z0-9 -]+$/ // generic format for any country's zip code
         const countryNameFormat = /^[a-zA-Z -]*$/ // simplifed format for country name
 
-        console.log(fieldName)
-        console.log(value)
         if (rules.required && value.trim() === '') { // required value is empty
             errorMessage = 'This value is required.'
         } else if (rules.minLength > value.length) { // below minimum length
@@ -76,8 +74,6 @@ const formValidator = { //validation logic
         } else if (rules.type === 'country' && !countryNameFormat.test(value.trim())) { //value does not match country type
             errorMessage = 'Valid country names should contain only letters.'
         } else if (fieldName === 'passConfirm' && value !== formData.pass) { //passwords do not match
-            console.log(formData.pass)
-            console.log(value)
             errorMessage = 'Passwords do not match!'
         }
          
@@ -99,7 +95,6 @@ const formValidator = { //validation logic
 
             let validationResult = this.validateField(fieldName, value) 
             if (!validationResult.isValid) {
-                console.log('invalid')
                 formIsValid = false
             };
         }) 
@@ -123,7 +118,6 @@ formFields.forEach(field => {
         //handling validation result
         if (!validityResult.isValid) {
             errorTextArea.textContent = validityResult.errorMessage
-            console.log(validityResult)
             
             //setting messages with errors to class 'error'
             DOMField.classList.add ('invalid')
@@ -145,7 +139,7 @@ submitBtn.addEventListener('click', () => {
         highFiveText.textContent = 'You did it! Gimme five! へ(^o^)ノ'
     } else {
         highFiveText.textContent = ''
-        console.log('displaying all error messages.')
+        
         
         formFields.forEach(field => {
             const fieldName = field.getAttribute('name')
@@ -157,10 +151,6 @@ submitBtn.addEventListener('click', () => {
             //displaying the error message
             const errorTextArea = document.querySelector(`#${fieldName} ~ span.error`)
             errorTextArea.textContent = validityResult.errorMessage
-
-
-
         })
     }
-
 })
